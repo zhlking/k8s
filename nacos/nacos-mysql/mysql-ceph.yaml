@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nacos-mysql
+  labels:
+    name: nacos-mysql
+spec:
+  ports:
+    - port: 3306
+      targetPort: 3306
+  selector:
+    name: nacos-mysql
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nacos-mysql-data
+  namespace: default
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: longhorn
+  volumeMode: Filesystem
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: nacos-mysql
+  labels:
+    name: nacos-mysql
+spec:
+  replicas: 1
+  selector:
+    name: nacos-mysql
+  template:
+    metadata:
+      labels:
+        name: nacos-mysql
+    spec:
+      containers:
+      - name: nacos-mysql
+        image: nacos/nacos-mysql:5.7
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root"
+        - name: MYSQL_DATABASE
+          value: "nacos_devtest"
+        - name: MYSQL_USER
+          value: "nacos"
+        - name: MYSQL_PASSWORD
+          value: "nacos"
+        volumeMounts:
+        - name: nacos-mysql-storage
+          mountPath: /var/lib/mysql
+          subPath: nacos-mysql
+          readOnly: false
+      volumes:
+      - name: nacos-mysql-storage
+        persistentVolumeClaim:
+          claimName: nacos-mysql-data

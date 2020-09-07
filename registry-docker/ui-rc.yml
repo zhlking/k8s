@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  #  namespace: default
+  name: registry-ui
+  labels:
+    app: registry-ui
+spec:
+  serviceName: registry-ui
+  replicas: 1
+  selector:
+    matchLabels:
+      app: registry-ui
+  template:
+    metadata:
+      labels:
+        app: registry-ui
+    spec:
+      containers:
+        - name: registry-ui
+          image: hyper/docker-registry-web
+          resources:
+            limits:
+              cpu: 150m
+              memory: 4000Mi
+            requests:
+              cpu: 100m
+              memory: 2000Mi
+          env:
+            - name: TZ
+              value: Asia/Shanghai
+            - name: REGISTRY_URL
+              value: http://registry-0.registry.default.svc.cluster.local:5000/v2
+            - name: REGISTRY_NAME
+              value: http://192.168.211.221:5000
+            - name: REGISTRY_READONLY
+              value: false
+            - name: REGISTRY_STORAGE_DELETE_ENABLED
+              value: true
+          ports:
+            - containerPort: 8080
