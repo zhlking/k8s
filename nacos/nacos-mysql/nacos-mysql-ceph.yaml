@@ -7,8 +7,8 @@ metadata:
     name: nacos-mysql
 spec:
   ports:
-    - port: 3306
-      targetPort: 3306
+  - port: 3306
+    targetPort: 3306
   selector:
     name: nacos-mysql
 ---
@@ -50,11 +50,11 @@ spec:
         env:
         - name: MYSQL_ROOT_PASSWORD
           value: "root"
-        - name: MYSQL_DATABASE
+        - name: NACOS_MYSQL_DATABASE
           value: "nacos_devtest"
-        - name: MYSQL_USER
+        - name: NACOS_MYSQL_USER
           value: "nacos"
-        - name: MYSQL_PASSWORD
+        - name: NACOS_MYSQL_PASSWORD
           value: "nacos"
         volumeMounts:
         - name: nacos-mysql-storage
