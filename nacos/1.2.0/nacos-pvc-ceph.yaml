@@ -21,6 +21,7 @@ kind: ConfigMap
 metadata:
   name: nacos-cm
 data:
+  mysql.db.host: "nacos-mysql"
   mysql.db.name: "nacos_devtest"
   mysql.port: "3306"
   mysql.user: "nacos"
@@ -83,6 +84,11 @@ spec:
                 fieldRef:
                   apiVersion: v1
                   fieldPath: metadata.namespace
+            - name: MYSQL_SERVICE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: nacos-cm
+                  key: mysql.db.host
             - name: MYSQL_SERVICE_DB_NAME
               valueFrom:
                 configMapKeyRef:
