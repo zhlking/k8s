@@ -24,8 +24,7 @@ metadata:
   namespace: default
 spec:
   rules:
-    - host: ingress-nacos-server.xip.io
-      http:
+    - http:
         paths:
           - path: /nacos
             pathType: ImplementationSpecific
