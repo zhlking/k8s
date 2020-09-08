@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: nacos-mysql
-        image: registry.cn-hangzhou.aliyuncs.com/zhlking/nacos-mysql:5.7-1.3.2
+        image: nacos/nacos-mysql:5.7
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 3306
