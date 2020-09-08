@@ -22,16 +22,15 @@ kind: Ingress
 metadata:
   name: ingress-nacos-server
   namespace: default
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - http:
+    - host: ingress-nacos-server.xip.io
+      http:
         paths:
           - path: /nacos
             pathType: ImplementationSpecific
             backend:
-              serviceName: nacos
+              serviceName: nacos-headless
               servicePort: 8848
 ---
 apiVersion: v1
