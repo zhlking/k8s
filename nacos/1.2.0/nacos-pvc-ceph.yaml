@@ -3,8 +3,9 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nacos-headless
+  namespace: nacos
   labels:
-    app: nacos
+    app: nacos-server
   annotations:
     service.alpha.kubernetes.io/tolerate-unready-endpoints: "true"
 spec:
@@ -14,14 +15,14 @@ spec:
       targetPort: 8848
   clusterIP: None
   selector:
-    app: nacos
+    app: nacos-server
 
 ---
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: ingress-nacos-server
-  namespace: default
+  namespace: nacos
 spec:
   rules:
     - http:
@@ -36,9 +37,10 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: nacos-cm
+  namespace: nacos
 data:
   mysql.db.host: "nacos-mysql"
-  mysql.db.name: "nacos_devtest"
+  mysql.db.name: "nacos_db"
   mysql.port: "3306"
   mysql.user: "nacos"
   mysql.password: "nacos"
@@ -46,17 +48,18 @@ data:
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: nacos
+  name: nacos-server
+  namespace: nacos
 spec:
   selector:
     matchLabels:
-      app: nacos
+      app: nacos-server
   serviceName: nacos-headless
   replicas: 3
   template:
     metadata:
       labels:
-        app: nacos
+        app: nacos-server
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
     spec:
