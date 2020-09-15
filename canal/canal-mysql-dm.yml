@@ -15,18 +15,16 @@ spec:
     spec:
       containers:
         - name: canal-mysql
-          image: mysql:5.7.31
+          image: registry.cn-hangzhou.aliyuncs.com/zhlking/canal-mysql:v1.1.4-2
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
-            - name: MYSQL_DATABASE
-              value: canal_manager
-            - name: MYSQL_USER
+            - name: CANAL_ADMIN_USER
               valueFrom:
                 secretKeyRef:
                   key: Username
                   name: canal-user-passwd
-            - name: MYSQL_PASSWORD
+            - name: CANAL_ADMIN_PASSWORD
               valueFrom:
                 secretKeyRef:
                   key: PassWord
