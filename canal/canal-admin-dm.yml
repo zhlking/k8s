@@ -19,6 +19,8 @@ spec:
         - image: canal/canal-admin:v1.1.4
           name: canal-admin
           env:
+            - name: CANAL_ADMIN_DATABASE
+              value: canal-mysql
             - name: CANAL_ADMIN_USER
               valueFrom:
                 secretKeyRef:
