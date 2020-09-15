@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: canal-mysql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: canal-mysql
+  template:
+    metadata:
+      labels:
+        app: canal-mysql
+    spec:
+      containers:
+        - name: canal-mysql
+          image: registry.cn-hangzhou.aliyuncs.com/zhlking/canal-mysql:v1.1.4-1
+          volumeMounts:
+            - name: canal-mysql-data
+              mountPath: /var/lib/mysql/
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
+          ports:
+            - containerPort: 3306
+      volumes:
+        - name: canal-mysql-data
+          persistentVolumeClaim:
+            claimName: canal-mysql-data
