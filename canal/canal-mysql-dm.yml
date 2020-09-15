@@ -16,9 +16,6 @@ spec:
       containers:
         - name: canal-mysql
           image: registry.cn-hangzhou.aliyuncs.com/zhlking/canal-mysql:v1.1.4-1
-          volumeMounts:
-            - name: canal-mysql-data
-              mountPath: /var/lib/mysql/
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
@@ -34,6 +31,9 @@ spec:
                   name: canal-user-passwd
           ports:
             - containerPort: 3306
+          volumeMounts:
+            - name: canal-mysql-data
+              mountPath: /var/lib/mysql/
       volumes:
         - name: canal-mysql-data
           persistentVolumeClaim:
