@@ -22,6 +22,16 @@ spec:
           env:
             - name: MYSQL_ROOT_PASSWORD
               value: root
+            - name: CANAL_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: Username
+                  name: canal-user-passwd
+            - name: CANAL_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PassWord
+                  name: canal-user-passwd
           ports:
             - containerPort: 3306
       volumes:

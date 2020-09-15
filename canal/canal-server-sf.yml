@@ -20,6 +20,17 @@ spec:
         - image: canal/canal-server:v1.1.4
           name: canal-server
           imagePullPolicy: IfNotPresent
+          env:
+            - name: CANAL_ADMIN_USER
+              valueFrom:
+                secretKeyRef:
+                  key: Username
+                  name: canal-user-passwd
+            - name: CANAL_ADMIN_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: PassWord
+                  name: canal-user-passwd
           ports:
             - containerPort: 11110
               protocol: TCP
