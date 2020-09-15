@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: canal-server
+  namespace: default
+  labels:
+    app: canal-server
+spec:
+  selector:
+    matchLabels:
+      app: canal-server
+  serviceName: "canal-server-svc"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: canal-server
+    spec:
+      containers:
+        - image: canal/canal-server:v1.1.4
+          name: canal-server
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 11110
+              protocol: TCP
+              name: admin
+            - containerPort: 11111
+              protocol: TCP
+              name: http
+            - containerPort: 11112
+              protocol: TCP
+              name: metric
+          resources:
+            requests:
+              cpu: 100m
+              memory: 100Mi
+            limits:
+              cpu: 4000m
+              memory: 4Gi
+          volumeMounts:
+            - mountPath: home/admin/canal-server/canal.properties
+              subPath: canal.properties
+              name: canal-server-conf
+      volumes:
+        - name: canal-server-conf
+          configMap:
+            name: canal-conf
+      securityContext:
+        runAsUser: 0

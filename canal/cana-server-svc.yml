@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: canal-server-svc
+  labels:
+    app: canal-server-svc
+  namespace: default
+spec:
+  selector:
+    app: canal-server
+  ports:
+    - protocol: TCP
+      port: 3678
+      targetPort: 3678
+      name: transport
+  clusterIP: None

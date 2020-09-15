@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: canal-admin-svc
+  namespace: default
+  labels:
+    app: canal-admin-svc
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8089
+      targetPort: 8089
+  selector:
+    app: canal-admin
