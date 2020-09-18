@@ -7,9 +7,11 @@ metadata:
   labels:
     app: canal-admin-svc
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
-    - port: 8089
+    - name: canal-admin-api
+      port: 8089
       targetPort: 8089
   selector:
     app: canal-admin
+
