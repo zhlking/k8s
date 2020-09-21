@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: zookeeper
-  namespace: zookeeper
+  namespace: default
 spec:
   serviceName: zk-hs
   replicas: 3
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: zookeeper
-          image: registry.cn-hangzhou.aliyuncs.com/zhlking/zookeeper:3.5.8-1
+          image: zhlking/zookeeper:3.5.8
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 2181
